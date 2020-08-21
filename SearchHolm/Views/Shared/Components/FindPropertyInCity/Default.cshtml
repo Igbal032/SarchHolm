@@ -1,0 +1,15 @@
+﻿@model IEnumerable<SearchHolm.Models.Entity.Apartment>
+
+@foreach (var item in Model)
+{
+    <div class="swiper-slide single-place-wrap">
+        <div class="single-place-image">
+            <a href="~/Template/location-left-sidebar.html"><img src="~/Template/images/places/@item.imgPathForPlace" alt="place-image"></a>
+            <a class="single-place-title" href="~/Template/location-left-sidebar.html">@item.City.CityName,@item.City.state.StateName</a>
+        </div>
+        <div class="single-place-content">
+            <h3><span>80</span>Apartments for sale</h3>
+            <a href="~/Template/grid-fullwidth-map.html">See all Listings <i class="lnr lnr-arrow-right"></i></a>
+        </div>
+    </div>
+}

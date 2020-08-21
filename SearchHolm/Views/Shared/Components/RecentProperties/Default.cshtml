@@ -1,0 +1,89 @@
+﻿@model IEnumerable<SearchHolm.Models.Entity.Apartment>
+
+<div class="swiper-container trending-place-wrap">
+    <div class="swiper-wrapper">
+        @foreach (var item in Model)
+        {
+            <div class="swiper-slide">
+                <div class="single-property-box">
+                    <div class="property-item">
+                        <a class="property-img" href="~/Template/single-listing-two.html"><img src="~/Template/images/property/@item.imgPath" alt="#"> </a>
+                        <ul class="feature_text">
+                            @if (item.ForRentOrSale.Name == "For Sale")
+                            {
+                                <li class="feature_cb"><span>For Sale</span></li>
+                            }
+                            else
+                            {
+                                <li class="feature_or"><span>For Rent</span></li>
+                            }
+                        </ul>
+                        <div class="property-author-wrap">
+                            <a href="~/Template/#" class="property-author">
+                                <img src="~/Template/images/agents/@item.SearchHomlUsers.imgPathMin" alt="...">
+                                <span>@item.SearchHomlUsers.UserName</span>
+                            </a>
+                            <ul class="save-btn">
+                                <li data-toggle="tooltip" data-placement="top" title="Photos"><a href="~/Template/.photo-gallery" class="btn-gallery"><i class="lnr lnr-camera"></i></a></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Bookmark"><a href="~/Template/#"><i class="lnr lnr-heart"></i></a></li>
+                                <li data-toggle="tooltip" data-placement="top" title="" data-original-title="Add to Compare"><a href="~/Template/#"><i class="fas fa-arrows-alt-h"></i></a></li>
+                            </ul>
+                            <div class="hidden photo-gallery">
+                                <a href="~/Template/images/single-listing/property_view_1.jpg"></a>
+                                <a href="~/Template/images/single-listing/property_view_2.jpg"></a>
+                                <a href="~/Template/images/single-listing/property_view_3.jpg"></a>
+                                <a href="~/Template/images/single-listing/property_view_4.jpg"></a>
+                                <a href="~/Template/images/single-listing/property_view_5.jpg"></a>
+                                <a href="~/Template/images/single-listing/property_view_6.jpg"></a>
+                                <a href="~/Template/images/single-listing/property_view_7.jpg"></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="property-title-box">
+                        <h4><a href="~/Template/single-listing-one.html">Comfortable Family Apartment</a></h4>
+                        <div class="property-location">
+                            <i class="fa fa-map-marker-alt"></i>
+                            <p>@item.ExactAddress,@item.City.CityName,@item.City.state.StateName</p>
+                        </div>
+                        <ul class="property-feature">
+                            <li>
+                                <i class="fas fa-bed"></i>
+                                <span>@item.Room.BedRooms.BedRoomCount Bedrooms</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-bath"></i>
+                                <span>@item.Room.BathRooms.BathRoomCount Bath</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-arrows-alt"></i>
+                                <span>@item.Area sq ft</span>
+                            </li>
+                            <li>
+                                <i class="fas fa-car"></i>
+                                <span>@item.Room.Garrages.GarrageCount Garage</span>
+                            </li>
+                        </ul>
+                        <div class="trending-bottom">
+                            <div class="trend-left float-left">
+                                <ul class="product-rating">
+                                    <li><i class="fas fa-star"></i></li>
+                                    <li><i class="fas fa-star"></i></li>
+                                    <li><i class="fas fa-star"></i></li>
+                                    <li><i class="fas fa-star-half-alt"></i></li>
+                                    <li><i class="fas fa-star-half-alt"></i></li>
+                                </ul>
+                            </div>
+                            <a class="trend-right float-right">
+                                <div class="trend-open">
+                                    <p>$@item.Price<span class="per_month">month</span> </p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+<div class="trending-pagination"></div>

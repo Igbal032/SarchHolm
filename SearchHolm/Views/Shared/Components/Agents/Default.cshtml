@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SearchHolm.Models.Entity.SearchHomlUser>
+
+    <div class="team-section mt-130 pb-100">
+        <div class="container">
+            <div class="row mt-30">
+                <div class="col-md-8 offset-md-2 text-center">
+                    <div class="section-title v1">
+                        <p>Ready to serve you the best</p>
+                        <h2>Meet our Agents</h2>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="team-wrapper swiper-container">
+                        <div class="swiper-wrapper">
+                            @foreach (var item in Model)
+                            {
+                                <div class="swiper-slide">
+                                    <div class="single-team-member v2">
+                                        <a href="single-agent.html"><img src="~/Template/images/agents/@item.imgPath" alt="Image"></a>
+                                        <div class="single-team-info">
+                                            <h4><a href="single-agent.html">@item.UserName</a></h4>
+                                            <span>Real Estate Agent</span>
+                                            <div class="contact-info">
+                                                <div class="icon">
+                                                    <i class="fas fa-phone-alt"></i>
+                                                </div>
+                                                <div class="text"><a href="tel:44078767595">@item.PhoneNumber</a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="slider-btn v2 team_next"><i class="lnr lnr-arrow-right"></i></div>
+                        <div class="slider-btn v2 team_prev"><i class="lnr lnr-arrow-left"></i></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,8 @@
+﻿@model List<SearchHolm.Models.Entity.City>
+
+<select id="selectCity" name="CityId" class="hero__form-input  form-control custom-select">
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.CityName</option>
+    }
+</select>
