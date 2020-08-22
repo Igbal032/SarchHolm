@@ -19,8 +19,8 @@ namespace SearchHolm.ViewComponents
         Consultation consultation;
         public IViewComponentResult Invoke(){
 
-            var cities = db.cities.Include(c => c.state).ToList();
-            var meetingTypes = db.meettingTypes.ToList();
+            List<City> cities = db.cities.Include(c => c.state).ToList();
+            List<MeettingType> meetingTypes = db.meettingTypes.ToList();
             ViewData["cities"] = cities;
             ViewData["meetingTypes"] = meetingTypes;
             return View(consultation);

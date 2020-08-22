@@ -20,7 +20,7 @@
     </div>
 </div>
 
-<div class="property-place pb-60 hideme"  style="background-image: url(~/Template/images/bg/map-bg-1.png)">
+<div class="property-place pb-60 hideme" style="background-image: url(~/Template/images/bg/map-bg-1.png)">
     <div class="container">
         <div class="row">
             <div class="swiper-container popular-place-wrap v1">
@@ -727,7 +727,14 @@
 <!--Testimonial Section ends-->
 <!--Call to action starts-->
 @await Component.InvokeAsync("Consultation");
-
+@if (ViewData["existUser"]!=null)
+{
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <h5 class="text-danger">@ViewData["existUser"]</h5>
+        </div>
+    </div>
+}
 <!--Call to action ends-->
 <!--Team section starts-->
 @await Component.InvokeAsync("Agents");

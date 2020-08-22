@@ -15,7 +15,6 @@ namespace SearchHolm.ViewComponents
         {
             this.db = db;
         }
-
         public IViewComponentResult Invoke() 
         {
             List<State> States = db.States.ToList();

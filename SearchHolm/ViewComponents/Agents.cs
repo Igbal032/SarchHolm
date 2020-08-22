@@ -24,10 +24,10 @@ namespace SearchHolm.ViewComponents
         public IViewComponentResult Invoke()
         {
             var agents = db.UserRoles.Where(w => w.RoleId == 1).ToList();
-            var users = new List<SearchHomlUser>();
+            List<SearchHomlUser> users = new List<SearchHomlUser>();
             foreach (var item in agents)
             {
-                var findUser = db.Users.Where(w => w.Id == item.UserId).FirstOrDefault();
+                SearchHomlUser findUser = db.Users.Where(w => w.Id == item.UserId).FirstOrDefault();
                 users.Add(findUser);
             }
             return View(users);

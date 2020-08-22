@@ -37,16 +37,16 @@ namespace SearchHolm.Controllers
 
         public void aboutCompany()
         {
-            var aboutSite = db.aboutCompany.Include(n=>n.CompanyNumber).Include(a=>a.CompanyAdresss).Include(e=>e.CompanyEmail).ToList();
+            List<AboutCompany> aboutSite = db.aboutCompany.Include(n => n.CompanyNumber).Include(a => a.CompanyAdresss).Include(e => e.CompanyEmail).ToList();
             ViewData["aboutSite"] = aboutSite.FirstOrDefault();
         }
 
         public IActionResult Index()
         {
             aboutCompany();
-            var propertiesList = db.apartments.ToList();
-            var propertiesListForNew = db.apartments.Where(w => w.ForRentOrSale.Name == "For Sale").ToList();
-            var propertiesListForRent = db.apartments.Where(w=>w.ForRentOrSale.Name=="For Rent").ToList();
+            List<Apartment> propertiesList = db.apartments.ToList();
+            List<Apartment> propertiesListForNew = db.apartments.Where(w => w.ForRentOrSale.Name == "For Sale").ToList();
+            List<Apartment> propertiesListForRent = db.apartments.Where(w => w.ForRentOrSale.Name == "For Rent").ToList();
             ViewData["allProperties"] = propertiesList;
             ViewData["forSale"] = propertiesListForNew;
             ViewData["forRent"] = propertiesListForRent;
@@ -57,14 +57,28 @@ namespace SearchHolm.Controllers
             if (!ModelState.IsValid)
             {
                 aboutCompany();
+                Index();
                 return View("Index");
             }
             else
             {
-                await db.consultations.AddAsync(consultation);
-                await db.SaveChangesAsync();
-                aboutCompany();
-                return View("Index");
+                Consultation findConsultation = db.consultations.Where(w => w.Name == consultation.Name).FirstOrDefault();
+                if (findConsultation==null)
+                {
+                    await db.consultations.AddAsync(consultation);
+                    await db.SaveChangesAsync();
+                    aboutCompany();
+                    Index();
+                    return View("Index");
+                }
+                else
+                {
+                    aboutCompany();
+                    ViewData["existUser"] = "This User has already taken consultation!!!!";
+                    Index();
+                    return View("Index");
+                }
+                
             }
         }
         [HttpGet]
@@ -75,18 +89,18 @@ namespace SearchHolm.Controllers
             return PartialView(cities);
         }
         List<Apartment> findApartment;
-        public IActionResult searchSubmit(int StateId,int CityId,string none)
+        public IActionResult searchSubmit(int StateId, int CityId)
         {
             City city;
             State state;
             aboutCompany();
-            if (StateId!=0&&CityId!=0)
+            if (StateId != 0 && CityId != 0)
             {
                 state = db.States.Where(w => w.Id == StateId).FirstOrDefault();
                 city = db.cities.Where(w => w.Id == CityId).FirstOrDefault();
-                findApartment = db.apartments.Where(w => w.City.state.StateName == state.StateName&&w.City.CityName== city.CityName).ToList();
+                findApartment = db.apartments.Where(w => w.City.state.StateName == state.StateName && w.City.CityName == city.CityName).ToList();
             }
-            else if (StateId != 0||string.IsNullOrWhiteSpace(none))
+            else if (StateId != 0)
             {
                 state = db.States.Where(w => w.Id == StateId).FirstOrDefault();
                 findApartment = db.apartments.Where(w => w.City.state.StateName == state.StateName).ToList();

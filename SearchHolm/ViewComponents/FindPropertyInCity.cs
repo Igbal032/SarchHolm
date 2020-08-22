@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SearchHolm.Models;
+using SearchHolm.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace SearchHolm.ViewComponents
 
         public IViewComponentResult Invoke() 
         {
-            var apartments = db.apartments.ToList();
+            List<Apartment> apartments = db.apartments.ToList();
             return View(apartments);
         }
     }
