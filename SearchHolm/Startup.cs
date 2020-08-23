@@ -71,13 +71,13 @@ namespace SearchHolm
                 options.SlidingExpiration = true;
             });
 
-            //services.AddDistributedMemoryCache();
-            //services.AddSession(options =>
-            //{
-            //    options.IdleTimeout = TimeSpan.FromSeconds(10);
-            //    options.Cookie.HttpOnly = true;
-            //    options.Cookie.IsEssential = true;
-            //});
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
 
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
@@ -103,7 +103,7 @@ namespace SearchHolm
             app.UseAuthorization();
             app.UseAuthentication();
             app.UseCookiePolicy();
-            //app.UseSession();
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

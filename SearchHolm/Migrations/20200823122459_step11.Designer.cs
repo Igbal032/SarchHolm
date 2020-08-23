@@ -10,8 +10,8 @@ using SearchHolm.Models;
 namespace SearchHolm.Migrations
 {
     [DbContext(typeof(CompanyDbContext))]
-    [Migration("20200821123501_second1225")]
-    partial class second1225
+    [Migration("20200823122459_step11")]
+    partial class step11
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

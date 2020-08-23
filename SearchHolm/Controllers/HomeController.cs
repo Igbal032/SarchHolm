@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Security.Claims;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using SearchHolm.Models;
 using SearchHolm.Models.Entity;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace SearchHolm.Controllers
 {
@@ -54,6 +50,7 @@ namespace SearchHolm.Controllers
         }
         public async Task<IActionResult> sentMessage(Consultation consultation)
         {
+
             if (!ModelState.IsValid)
             {
                 aboutCompany();
@@ -108,61 +105,64 @@ namespace SearchHolm.Controllers
             return PartialView(findApartment);
         }
 
-        //public async Task<IActionResult> SignInSubmit(string UserName, string Password)
-        //{
-        //    var checkUser = await userManager.FindByNameAsync(UserName);
-        //    if (checkUser != null)
-        //    {
-        //        if (!string.IsNullOrWhiteSpace(Password))
-        //        {
-        //            var result = await signInManager.PasswordSignInAsync(UserName, Password, true, true);
+        public async Task<IActionResult> SignInSubmit(string UserName, string Password)
+        {
+            string usn = "";
+            var checkUser = await userManager.FindByNameAsync(UserName);
+            if (checkUser != null)
+            {
+                if (!string.IsNullOrWhiteSpace(Password))
+                {
+                    var sss = HttpContext.Session.GetString("existedUser");
 
-        //            if (result.Succeeded)
-        //            {
-        //                var claims = new List<Claim> {
-        //                    new Claim(ClaimTypes.Name,UserName)
+                    var result = await signInManager.PasswordSignInAsync(UserName, Password, true, true);
 
-        //                };
-        //                var identity = new ClaimsIdentity(
-        //                    claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        //                var principal = new ClaimsPrincipal(identity);
-        //                var props = new AuthenticationProperties();
-        //                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props).Wait();
-        //                ViewData["aboutSite"] = db.aboutCompany.FirstOrDefault();
-        //                ViewBag.logIN = "Log In successed";
-        //                var sessionName = userManager.GetUserName(HttpContext.User);
-        //                ViewBag.Session = sessionName;
-        //                return View("Index");
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        var newUser = new SearchHomlUser
-        //        {
-        //            UserName = UserName,
-        //        };
+                    if (result.Succeeded)
+                    {
+                        var claims = new List<Claim> {
+                            new Claim(ClaimTypes.Name,UserName)
 
-        //        var addUser = await userManager.CreateAsync(newUser, Password);
-        //        if (addUser.Succeeded)
-        //        {
-        //            var findRole = await roleManager.FindByIdAsync("1");
+                        };
+                        var identity = new ClaimsIdentity(
+                            claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var principal = new ClaimsPrincipal(identity);
+                        var props = new AuthenticationProperties();
+                        HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, props).Wait();
+                        aboutCompany();
+                        var sessionName = userManager.GetUserName(HttpContext.User);
+                        HttpContext.Session.SetString("existedUser",UserName);
+                        var s = HttpContext.Session.GetString("existedUser");
+                        ViewBag.Session = sessionName;
+                        return View("Index");
+                    }
+                }
+            }
+            else
+            {
+                var newUser = new SearchHomlUser
+                {
+                    UserName = UserName,
+                };
 
-        //            //var x = await userManager.AddToRoleAsync(newUser, findRole.Name);
-        //        }
-        //    }
-        //    ViewData["aboutSite"] = db.aboutCompany.FirstOrDefault();
-        //    return View("Index");
-        //}
-        //[HttpPost]
-        //public async Task<IActionResult> logOut()
-        //{
-        //    await HttpContext.SignOutAsync(
-        //         CookieAuthenticationDefaults.AuthenticationScheme);
-        //    var x = userManager.GetUserName(HttpContext.User);
-        //    ViewData["aboutSite"] = db.aboutCompany.FirstOrDefault();
-        //    return View("Index");
-        //}
+                var addUser = await userManager.CreateAsync(newUser, Password);
+                if (addUser.Succeeded)
+                {
+                    var findRole = await roleManager.FindByIdAsync("1");
+
+                    //var x = await userManager.AddToRoleAsync(newUser, findRole.Name);
+                }
+            }
+            ViewData["aboutSite"] = db.aboutCompany.FirstOrDefault();
+            return View("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> logOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Remove("existedUser");
+            aboutCompany();
+            return View("Index");
+        }
 
 
 

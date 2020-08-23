@@ -1,5 +1,6 @@
 ﻿@{ 
    SearchHolm.Models.Entity.AboutCompany aboutCompany = ViewData["aboutSite"] as SearchHolm.Models.Entity.AboutCompany;
+  
 }
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
@@ -59,10 +60,7 @@
                                         <span>0</span>
                                     </li>
                                     <li>
-                                        <a class="d-flex" href="~/Template/#" data-toggle="modal" data-target="#user-login-popup"><i class="lnr lnr-user"></i></a>@*@if (!string.IsNullOrWhiteSpace(ViewBag.Session))
-                                        {
-                                        <h6 class="text-danger">@ViewBag.Session</h6>
-                                        }</a>*@
+                                        <a class="d-flex" href="~/Template/#" data-toggle="modal" data-target="#user-login-popup"><i class="lnr lnr-user"></i></a>
                                     </li>
                                 </ul>
                             </div>
@@ -95,8 +93,9 @@
                                                     <li><a href="~/Template/single-agency-home.html">Home Single Property</a></li>
                                                 </ul>
                                             </li>
-                                            @*@if (!string.IsNullOrWhiteSpace(ViewBag.Session))
+                                            @*@if (HttpContext.Session.GetString("existedUser") != null)
         {*@
+
                                             <li class="has-children">
                                                 <a href="~/Template/#">Listings</a>
                                                 <ul class="dropdown">
@@ -379,35 +378,30 @@
                                             <div class="tab-pane fade show active" id="login" role="tabpanel">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        @*@if (string.IsNullOrWhiteSpace(ViewBag.Session))
-                                                        {
-                                                            <form id="login-form" asp-action="signInSubmit" asp-controller="Home" method="post">
-                                                                <div class="form-group">
-                                                                    <input type="text" name="UserName" id="username" tabindex="1" class="form-control" placeholder="email" value="" required="">
-                                                                </div>
-                                                                <div class="form-group">
-                                                                    <input type="password" name="Password" id="password" tabindex="2" class="form-control" placeholder="Password">
-                                                                </div>
-                                                                <div class="row mt-20">
-                                                                    <div class="col-md-6 col-12 text-left">
-                                                                        <div class="res-box">
-                                                                            <input id="check-l" type="checkbox" name="check">
-                                                                            <label for="check-l">Remember me</label>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6 col-12 text-right">
-                                                                        <div class="res-box sm-left">
-                                                                            <a href="~/Template/#" tabindex="5" class="forgot-password">Forgot Password?</a>
-                                                                        </div>
+
+                                                        <form id="login-form" asp-action="signInSubmit" asp-controller="Home" method="post">
+                                                            <div class="form-group">
+                                                                <input type="text" name="UserName" id="username" tabindex="1" class="form-control" placeholder="email" value="" required="">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input type="password" name="Password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                                                            </div>
+                                                            <div class="row mt-20">
+                                                                <div class="col-md-6 col-12 text-left">
+                                                                    <div class="res-box">
+                                                                        <input id="check-l" type="checkbox" name="check">
+                                                                        <label for="check-l">Remember me</label>
                                                                     </div>
                                                                 </div>
-                                                                <div class="res-box text-center mt-30">
-                                                                    <button type="submit" class="btn v8"><span class="lnr lnr-exit"></span> Log In</button>
+                                                                <div class="col-md-6 col-12 text-right">
+                                                                    <div class="res-box sm-left">
+                                                                        <a href="~/Template/#" tabindex="5" class="forgot-password">Forgot Password?</a>
+                                                                    </div>
                                                                 </div>
-                                                            </form>
-                                                        }*@
-                                                        <form asp-action="logOut" asp-controller="home" method="post">
-                                                            <button type="submit" class="btn v8"><span class="lnr lnr-exit"></span> Log Out</button>
+                                                            </div>
+                                                            <div class="res-box text-center mt-30">
+                                                                <button type="submit" class="btn v8"><span class="lnr lnr-exit"></span> Log In</button>
+                                                            </div>
                                                         </form>
                                                         <div class="social-profile-login  text-left mt-20">
                                                             <h5>or Login with</h5>
@@ -474,6 +468,10 @@
                         </div>
                     </div>
                     <!--User login section ends-->
+
+                    <form asp-action="logOut" asp-controller="home" method="post">
+                        <button type="submit" class="btn v8"><span class="lnr lnr-exit"></span> Log Out</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -489,7 +487,5 @@
     @RenderSection("Scripts", required: false)
     <!--Scripts ends-->
 </body>
-
-
 <!-- Mirrored from demo.lion-coders.com/html/sarchholm-real-estate-template/home-v1.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 19 Aug 2020 11:11:35 GMT -->
 </html>
